@@ -1,13 +1,10 @@
+import { useRoutes } from "react-router-dom";
+import routes from "./routes.tsx";
 
 function App() {
+  const route = useRoutes(routes);
 
-    return (
-        <>
-            <h1 className="text-3xl font-bold text-red-900">
-                Hello world!
-            </h1>
-        </>
-    )
+  return <>{route}</>;
 }
 
-export default App
+export default App;
