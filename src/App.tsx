@@ -1,12 +1,16 @@
+import { useRoutes } from "react-router-dom";
+import routes from "./routes.tsx";
+import { ToastContainer } from "react-toastify";
 
 function App() {
-    return (
-        <>
-            <h1 className="text-3xl font-bold">
-                Hello world!
-            </h1>
-        </>
-    )
+  const route = useRoutes(routes);
+
+  return (
+    <>
+      {route}
+      <ToastContainer />
+    </>
+  );
 }
 
-export default App
+export default App;
