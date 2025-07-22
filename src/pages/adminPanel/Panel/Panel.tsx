@@ -1,6 +1,26 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getProducts } from "../../../services/productApi.ts";
+import type { Product } from "../../../types/Product.ts";
 
 const Panel = () => {
+  const [courses, setCourses] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getProducts();
+      setCourses(res.data.slice(0, 10));
+      console.log(res.data);
+    };
+    fetchData();
+  }, []);
+
+  const editHandler = () => {};
+
+  const deleteProduct = (id: string) => {
+    console.log(id);
+  };
+
   return (
     <>
       <section className="bg-gray-800 rounded-lg shadow-md p-6 overflow-x-auto">
@@ -33,69 +53,33 @@ const Panel = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
-            <tr className="hover:bg-gray-700">
-              <td className="p-2">
-                <img
-                  src="https://picsum.photos/80/60?random=1"
-                  alt="محصول ۱"
-                  className="rounded"
-                />
-              </td>
-              <td className="py-4 px-6 text-gray-200">محصول اول</td>
-              <td className="py-4 px-6 text-green-400 font-semibold">
-                ۲۵۰,۰۰۰ تومان
-              </td>
-              <td className="py-4 px-6 space-x-3 whitespace-nowrap">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
-                  ویرایش
-                </button>
-                <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
-                  حذف
-                </button>
-              </td>
-            </tr>
-            <tr className="hover:bg-gray-700">
-              <td className="p-2">
-                <img
-                  src="https://picsum.photos/80/60?random=2"
-                  alt="محصول ۲"
-                  className="rounded"
-                />
-              </td>
-              <td className="py-4 px-6 text-gray-200">محصول دوم</td>
-              <td className="py-4 px-6 text-green-400 font-semibold">
-                ۳۹۹,۰۰۰ تومان
-              </td>
-              <td className="py-4 px-6 space-x-3 whitespace-nowrap">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
-                  ویرایش
-                </button>
-                <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
-                  حذف
-                </button>
-              </td>
-            </tr>
-            <tr className="hover:bg-gray-700">
-              <td className="p-2">
-                <img
-                  src="https://picsum.photos/80/60?random=3"
-                  alt="محصول ۳"
-                  className="rounded"
-                />
-              </td>
-              <td className="py-4 px-6 text-gray-200">محصول سوم</td>
-              <td className="py-4 px-6 text-green-400 font-semibold">
-                ۵۹۹,۰۰۰ تومان
-              </td>
-              <td className="py-4 px-6 space-x-3 whitespace-nowrap">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
-                  ویرایش
-                </button>
-                <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
-                  حذف
-                </button>
-              </td>
-            </tr>
+            {courses.map((course) => (
+              <tr className="hover:bg-gray-700" key={course.id}>
+                <td className="p-2">
+                  <img src={course.image} className="rounded size-32" />
+                </td>
+                <td className="py-4 px-6 text-gray-200">
+                  {course.title.slice(0, 10)}
+                </td>
+                <td className="py-4 px-6 text-green-400 font-semibold">
+                  {course.price.toLocaleString()} تومان
+                </td>
+                <td className="py-4 px-6 space-x-3 whitespace-nowrap">
+                  <button
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                    onClick={() => editHandler()}
+                  >
+                    ویرایش
+                  </button>
+                  <button
+                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+                    onClick={() => deleteProduct(course.id)}
+                  >
+                    حذف
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </section>
