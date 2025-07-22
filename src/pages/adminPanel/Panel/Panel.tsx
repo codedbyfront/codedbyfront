@@ -62,7 +62,7 @@ const Panel = () => {
                   {course.title.slice(0, 10)}
                 </td>
                 <td className="py-4 px-6 text-green-400 font-semibold">
-                  {course.price.toLocaleString()} تومان
+                  ${course.price.toLocaleString()}
                 </td>
                 <td className="py-4 px-6 space-x-3 whitespace-nowrap">
                   <button
